@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,11 +30,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 class MainActivity : ComponentActivity() {
@@ -41,8 +47,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CreateSquares()
-            // A surface container using the 'background' color from the theme
-
         }
     }
 }
@@ -60,10 +64,11 @@ fun CreateSquares() {
     val configuration = LocalConfiguration.current
     inLineN = when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
-            4
+            integerResource(id = R.integer.landscape_length)
         }
+
         else -> {
-            3
+            integerResource(id = R.integer.portrait_length)
         }
     }
 
@@ -93,7 +98,13 @@ fun CreateSquares() {
                                     .aspectRatio(1f)
                                     .background(if ((i * inLineN + j) % 2 == 0) Color.Red else Color.Blue)
                             ) {
-                                Text(text = "${i * inLineN + j}")
+                                Text(
+                                    modifier = Modifier.align(Alignment.Center),
+                                    text = "${i * inLineN + j}",
+                                    fontSize = 40.sp,
+                                    color = Color.White,
+                                    textAlign = TextAlign.Center
+                                )
                             }
                         }
                     }
@@ -110,7 +121,12 @@ fun CreateSquares() {
                                 .aspectRatio(1f)
                                 .background(if ((remN - remN % inLineN + j) % 2 == 0) Color.Red else Color.Blue)
                         ) {
-                            Text(text = "${remN - remN % inLineN + j}")
+                            Text(
+                                modifier = Modifier.align(Alignment.Center),
+                                text = "${remN - remN % inLineN + j}",
+                                fontSize = 40.sp,
+                                color = Color.White
+                            )
                         }
                     }
                     repeat(inLineN - remN % inLineN) {
@@ -122,15 +138,13 @@ fun CreateSquares() {
                 }
             }
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Bottom) {
-
-
-                Text(text = "$remN")
-
-                Box(modifier = Modifier
+                Text(text = "$remN", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Box(contentAlignment = Alignment.Center, modifier = Modifier
                     .clickable {
                         remN++
                     }
-                    .size(50.dp)
+                    .size(60.dp)
+                    .border(2.dp, Color.Black)
                     .background(Color.Blue)
                 ) {
                     Icon(
@@ -141,9 +155,5 @@ fun CreateSquares() {
                 }
             }
         }
-
-
     }
 }
-
-

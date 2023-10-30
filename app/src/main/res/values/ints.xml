@@ -1,0 +1,4 @@
+<resources>
+    <integer name="landscape_length">4</integer>
+    <integer name="portrait_length">3</integer>
+</resources>
